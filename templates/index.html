@@ -1,0 +1,161 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+
+{% if eventcheck == 1 %}
+    <script>
+    var startdate = '{{startdate.strftime("%m %d, %Y")}}';
+    var starttime = '{{starttime.strftime("%H:%M:%S")}}';
+    // Set the date we're counting down to
+    var countDownDate = new Date(startdate + ' ' + starttime).getTime();
+
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Output the result in an element with id="demo"
+        document.getElementById("days").innerHTML = ("0" + days).slice(-2);
+        document.getElementById("hrs").innerHTML = ("0" + hours).slice(-2);
+        document.getElementById("mins").innerHTML = ("0" + minutes).slice(-2);
+        document.getElementById("secs").innerHTML = ("0" + seconds).slice(-2);
+
+
+      // If the count down is over, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("days").innerHTML = ("00").slice(-2);
+            document.getElementById("hrs").innerHTML = ("00").slice(-2);
+            document.getElementById("mins").innerHTML = ("00").slice(-2);
+            document.getElementById("secs").innerHTML = ("00").slice(-2);
+        }
+    }, 1000);
+    </script>
+
+    <div style="padding-bottom: 10px">
+        <div class="indexcustom">Your next event is in:</div>
+        <table align="center">
+            <tr>
+                <td id="days" class="countdown"></td>
+                <td class="countdowntable1">Days</td>
+                <td id="hrs" class="countdown"></td>
+                <td class="countdowntable1">Hrs</td>
+                <td id="mins" class="countdown"></td>
+                <td class="countdowntable1">Mins</td>
+                <td id="secs" class="countdown"></td>
+                <td class="countdowntable1">Secs</td>
+            </tr>
+        </table>
+    </div>
+    <div class="main4">
+    <p class="sign5" align="center">Event Details</p>
+    <table class="tablecustom30">
+        <tr>
+            <td>
+                <div class="formheader2">
+                    EVENT NAME:
+                </div>
+                <div class="formcontent2">
+                    {{eventname}}
+                </div>
+                <div class="formheader2">
+                    <span >
+                        START DATE:
+                    </span>
+                    <span style="padding-left: 8%">
+                        START TIME:
+                    </span>
+                    <span style="padding-left: 12%">
+                        END DATE:
+                    </span>
+                    <span style="padding-left: 10%">
+                        END TIME:
+                    </span>
+                </div>
+                <div class="formcontent2">
+                    <span>
+                        {{startdate.strftime('%d/%m/%Y')}}
+                    </span>
+                    <span style="padding-left: 4.5%">
+                        {{starttime.strftime('%H:%M')}}
+                    </span>
+                    <span style="padding-left: 20%">
+                        {{enddate.strftime('%d/%m/%Y')}}
+                    </span>
+                    <span style="padding-left: 4.5%">
+                        {{endtime.strftime('%H:%M')}}
+                    </span>
+                </div>
+                <div class="formheader2">
+                    DESCRIPTION:
+                </div>
+                <div class="formcontent2">
+                    {% if desc != "" %}
+                        {{desc}}
+                    {% else %}
+                        -
+                    {% endif %}
+                </div>
+                <div class="formheader2">
+                    REMARKS:
+                </div>
+                <div class="formcontent2">
+                    {% if remarks != "" %}
+                        {{remarks}}
+                    {% else %}
+                        -
+                    {% endif %}
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td height=25></td>
+        </tr>
+    </table>
+    </div>
+{% else %}
+    <div style="padding-bottom: 10px">
+        <div class="indexcustom">Your next event is in:</div>
+        <table align="center">
+            <tr>
+                <td class="countdown">00</td>
+                <td class="countdowntable1">Days</td>
+                <td class="countdown">00</td>
+                <td class="countdowntable1">Hrs</td>
+                <td class="countdown">00</td>
+                <td class="countdowntable1">Mins</td>
+                <td class="countdown">00</td>
+                <td class="countdowntable1">Secs</td>
+            </tr>
+        </table>
+    </div>
+    <div class="main4">
+    <p class="sign5" align="center">Event Details</p>
+    <table class="tablecustom30">
+        <tr>
+            <td style="letter-spacing: 1px; padding-top: 20px; font-size: 17px">
+                No upcoming events!
+            </td>
+        </tr>
+        <tr>
+            <td height=25></td>
+        </tr>
+    </table>
+    </div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Event History
+{% endblock %}
+
+{% block main %}
+
+<form action="/deletehistory" method = "post">
+    <table style="padding: 0; margin: 1" class="table table-borderless table-sm">
+        <tr>
+            <td style="width: 40%; height: 50px">
+                <div align=left>
+                    <label for="inp" class="inp1">
+                        <input type="text" id = "inp" class="form_field search" data-input>
+                        <span class="label">Search</span>
+                        <span class="border"></span>
+                    </label>
+                </div>
+            </td>
+            <td style="width: 50%; padding-top: 23px">
+                <div align=right>
+                    <button type="submit" class="submit1 ad1">Clear History</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="table-wrap">
+        <table style="box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14)" class="table table-bordered table-sm results">
+            <thead style="background-color: #F4F4F4">
+                <tr style="line-height:50px">
+                    <th style="width: 75%">Description</th>
+                    <th style="width: 25%">Time Stamp</th>
+                </tr>
+            </thead>
+            {% if history|length > 0 %}
+                {% for action in history %}
+                    <tr style="background-color: #ffffff">
+                        <td>{{ action.action }}</td>
+                        <td>{{ action.timestamp }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr style="background-color: #ededed">
+                    <td style="font-size: 17px" colspan = 2>No history found!</td>
+                </tr>
+            {% endif %}
+        </table>
+    </div>
+</form>
+
+<script>
+
+$(document).ready(function() {
+    $(".search").keyup(function () {
+        var searchTerm = $(".search").val();
+        var listItem = $('.results tbody').children('tr');
+        var searchSplit = searchTerm.replace(/ /g, "'):containsi('");
+
+        $.extend($.expr[':'], {'containsi': function(elem, i, match, array){
+            return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+        }});
+
+        $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e){
+            $(this).attr('visible','false');
+        });
+
+        $(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){
+            $(this).attr('visible','true');
+        });
+
+        var jobCount = $('.results tbody tr[visible="true"]').length;
+        $('.counter').text(jobCount + ' item');
+    });
+});
+
+</script>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+<script>
+    $('document').ready(function(){
+        $('form').on('submit', function(e){
+            e.preventDefault();
+            var username = $("#username").val();
+            var password = $("#password").val();
+            var confirmation = $("#confirmation").val();
+            $.get('/check?username=' + username, function(response) {
+                if (response == false) {
+                    alert('Username Taken!');
+                    $('#username').focus();
+                }
+                else if (password != confirmation)
+                {
+                    alert('Passwords are different!');
+                    $('#password').focus();
+                }
+                else
+                {
+                    (document).getElementById('register').submit();
+                }
+            });
+        });
+    });
+
+
+    function showhidefunction()
+    {
+        var password = document.getElementById("password");
+        var confirmation = document.getElementById("confirmation");
+        if (password.type === "password" || confirmation.type === "password") {
+            password.type = "text";
+            confirmation.type = "text";
+        }else{
+            password.type = "password";
+            confirmation.type = "password";
+        }
+    }
+</script>
+
+<div class="main1">
+    <p class="sign" align="center">Register</p>
+    <form class= "form1" id = "register" action="/register" method="post">
+        <input size = 30 id = "username" autocomplete="off" autofocus class="un" name="username" placeholder="Username" type="text" align="center" required>
+        <input size = 30 class="pass" name="password" id = "password" placeholder="Password" type="password" align="center" required>
+        <input size = 30 class="pass" name="confirmation" id = "confirmation" placeholder="Confirm Password" type="password" align="center" required>
+        <div class="form-check">
+            <input class="form-check-input" type= "checkbox" onclick = "showhidefunction()">
+            <label style="font-size: 13px; letter-spacing: 1px" class="form-check-label">Show Passwords</label>
+        </div><br>
+        <button class="submit ad1" type="submit">Register <img src = "/static/login.png" width="12" height="12" alt=""></button>
+
+    </form>
+</div>
+{% endblock %}

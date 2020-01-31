@@ -1,0 +1,179 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Organiser
+{% endblock %}
+
+{% block main %}
+
+<form id ="datepicker" action="/organiser" method="post">
+    <label for="inp" class="inp">
+        <input type="text" id = "inp" name="datepicker" class="form_field" value="{{selectdate.strftime('%d/%m/%Y')}}" data-input>
+        <span class="label">Date</span>
+        <span class="border"></span>
+    </label>
+    <button class="submit2 ad1" style="background-color: transparent; outline: none; border: none; cursor:pointer" type="submit"><img src = "/static/search.png" width="12" height="12" alt=""></button>
+</form><br>
+
+<div class="table-responsive-xl">
+    <table id = "table1" class=" tablecustom3 table table-bordered">
+        <thead style="background-color: #F4F4F4">
+            <tr>
+                <th style="width: 6%; vertical-align: middle">Start Time</th>
+                <th style="width: 6%; vertical-align: middle">End Time</th>
+                <th style="width: 15%; vertical-align: middle">Event Name</th>
+                <th style="width: 28%; vertical-align: middle">Description</th>
+                <th style="width: 20%; vertical-align: middle">Remarks</th>
+                <th style="width: 6%; vertical-align: middle">Edit</th>
+                <th style="width: 6%; vertical-align: middle">Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% if events|length > 0 %}
+                {% for event in events %}
+                {% if event.startdate < event.enddate %}
+                    <tr class="enlarge2" style="background-color: #d1ffcf">
+                {% else %}
+                    <tr class="enlarge2" style="background-color: #ffffff">
+                {% endif %}
+                    {% if event.startdate < event.enddate and event.startdate < selectdate.strftime('%Y-%m-%d') %}
+                        <td style="vertical-align: middle">00:00</td>
+                    {% else %}
+                        <td style="vertical-align: middle">{{event.starttime}}</td>
+                    {% endif %}
+                    {% if event.enddate > event.startdate and event.enddate > selectdate.strftime('%Y-%m-%d') %}
+                        <td style="vertical-align: middle">23:59</td>
+                    {% else %}
+                        <td style="vertical-align: middle">{{event.endtime}}</td>
+                    {% endif %}
+                        <td class="enlarge" style="vertical-align: middle">
+                            <a style = "text-decoration: none; color: black" href="/viewevent?eventid={{event.eventid}}">{{event.eventname}}</a>
+                        </td>
+                        <td style="vertical-align: middle">{{event.desc}}</td>
+                        <td style="vertical-align: middle">{{event.remarks}}</td>
+                        <td style="vertical-align: middle">
+                            <a href="/editevent?eventid={{event.eventid}}"><img class="enlarge" src="/static/edit2.png" width="15" height="15" class="next"/></a>
+                        </td>
+                        <td style="vertical-align: middle">
+                            <a href="/deleteevent?eventid={{event.eventid}}"><img class="enlarge" src="/static/delete.png" width="15" height="15" class="next"/></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            {% else %}
+            </tbody>
+            <tfooter>
+                <tr style="background-color: #ededed">
+                    <td style="font-size: 17px" colspan = 7>
+                        No events scheduled for today!
+                    </td>
+                </tr>
+            </tfooter>
+            {% endif %}
+
+    </table>
+</div>
+
+<span style="font-size: 13px">
+    Conflicted events will be highlighted in
+</span>
+<span style="font-size: 15px; color: red; font-weight: bold">
+    RED
+</span>
+<span style="font-size: 13px">
+    | Consecutive days events will be highlighted in
+</span>
+<span style="font-size: 15px; color: green; font-weight: bold">
+    GREEN
+</span>
+
+<script>
+
+$("#inp").flatpickr({
+    dateFormat: "d/m/Y"
+});
+
+var table = document.getElementById("table1");
+
+var tbodyRowCount = table.tBodies[0].rows.length;
+
+if (tbodyRowCount > 0) {
+
+    if (tbodyRowCount > 1) {
+        for (var i = 1; i < table.rows.length; i++) {
+            var row = table.rows[i];
+            if (i == 1) {
+                endtime = row.cells[1].innerHTML;
+                nexttime = table.rows[i+1].cells[0].innerHTML;
+                if (endtime > nexttime) {
+                    row.style.backgroundColor = "#ffb2a6";
+                }
+            }
+            else if (i > 1 && i < table.rows.length - 1) {
+                lasttime = table.rows[i-1].cells[1].innerHTML;
+                starttime = row.cells[0].innerHTML;
+                endtime = row.cells[1].innerHTML;
+                nexttime = table.rows[i+1].cells[0].innerHTML;
+                if (lasttime > starttime || endtime > nexttime) {
+                    row.style.backgroundColor = "#ffb2a6";
+                }
+            }
+            else if (i == table.rows.length - 1) {
+                lasttime = table.rows[i-1].cells[1].innerHTML;
+                starttime = row.cells[0].innerHTML;
+                if (lasttime > starttime) {
+                    row.style.backgroundColor = "#ffb2a6";
+                }
+            }
+        }
+
+        for (var y = 1; y < table.rows.length; y++) {
+            var row1 = table.rows[y];
+            if (y == 1) {
+                starttime = row1.cells[0].innerHTML;
+                if (starttime != '00:00') {
+                    content = "<tr style='background-color: #d9d9d9'><td>00:00</td><td>" + starttime + "</td><td colspan = 5><i>Free Time</i></td></tr>";
+                    $(content).insertBefore(row1);
+                }
+            }
+            else if (y > 1 && y < table.rows.length - 1) {
+                starttime = row1.cells[0].innerHTML;
+                lasttime = table.rows[y-1].cells[1].innerHTML;
+                if (starttime > lasttime) {
+                    content = "<tr style='background-color: #d9d9d9'><td>" + lasttime + "</td><td>" + starttime + "</td><td colspan = 5><i>Free Time</i></td></tr>";
+                    $(content).insertBefore(row1);
+                }
+            }
+            else if (y == table.rows.length - 1) {
+                starttime = row1.cells[0].innerHTML;
+                lasttime = table.rows[y-1].cells[1].innerHTML;
+                if (starttime > lasttime) {
+                    content = "<tr style='background-color: #d9d9d9'><td>" + lasttime + "</td><td>" + starttime + "</td><td colspan = 5><i>Free Time</i></td></tr>";
+                    $(content).insertBefore(row1);
+                }
+                endtime = row1.cells[1].innerHTML;
+                if (endtime != '23:59') {
+                    content = "<tr style='background-color: #d9d9d9'><td>" + endtime + "</td><td>23:59</td><td colspan = 5><i>Free Time</i></td></tr>";
+                    $(content).insertAfter(row1);
+                }
+            }
+        }
+    }
+    else if (tbodyRowCount == 1) {
+        var row2 = table.rows[1];
+        starttime = row2.cells[0].innerHTML;
+        if (starttime != '00:00') {
+            content = "<tr style='background-color: #d9d9d9'><td>00:00</td><td>" + starttime + "</td><td colspan = 5><i>Free Time</i></td></tr>";
+            $(content).insertBefore(row2);
+        }
+        endtime = row2.cells[1].innerHTML;
+        if (endtime != '23:59') {
+            content = "<tr style='background-color: #d9d9d9'><td>" + endtime + "</td><td>23:59</td><td colspan = 5><i>Free Time</i></td></tr>";
+            $(content).insertAfter(row2);
+        }
+    }
+}
+
+</script>
+{% endblock %}

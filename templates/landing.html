@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Welcome
+{% endblock %}
+
+{% block main %}
+<div class="main2">
+    <div class="sign2">
+        <p>Welcome to Project Scheduler!</p>
+    </div>
+    <div>
+        <p style="letter-spacing: 1px; font-size: 18px">Too busy to plan and organise all of the events you have going on around you? No worries!<br>
+        Project Scheduler is a <b>schedule organiser</b> that will help you to do just that!<br>
+        What are you waiting for? Try it for yourself!<br>
+        <a href="/register"><b>Register</b></a> today!</p>
+    </div>
+</div>
+
+<div class="wrapper">
+    <button style="outline: none; font-size: 15px; color:#7F807F" class="collapsible divider div-transparent div-stopper">Click to view features</button>
+    <div class="content ">
+        <br>
+        <table class="table table-borderless">
+            <tr>
+                <td width="15%"><img src = "/static/stopwatch.png" width="60" height="60" alt=""></td>
+                <td width="85%" align=left style="color: #3d3d3d"><b>Countdown Timer</b> that counts down to <i>(displaying in Days, Hours, Mins, and Secs)</i>, and displaying the event details of, the next upcoming event</td>
+            </tr>
+            <tr>
+                <td><img src = "/static/clock.png" width="60" height="60" alt=""></td>
+                <td align=left style="color: #3d3d3d"><b>Live Clock</b> that syncs with the system clock, at the top of the page to help its user keep track of time to attend all those important events</td>
+            </tr>
+            <tr>
+                <td><img src = "/static/calendar.png" width="60" height="60" alt=""></td>
+                <td align=left style="color: #3d3d3d">
+                    <b>Event Organiser</b> that:
+                    <ul style="color: #3d3d3d">
+                        <li>Displays all of its user's events and free time by day <i>(default will display the events of the current day, with the option to select past or future days)</i></li>
+                        <li>Highlights all potential conflicting events</li>
+                        <li>Has the ability to view, add, edit, or delete any event in the organiser</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td><img src = "/static/folder.png" width="60" height="60" alt=""></td>
+                <td align=left style="color: #3d3d3d"><b>Event History</b> that shows the timestamp of when any event was created, edited or removed for tracking/auditing purposes</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+  });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    View Event
+{% endblock %}
+
+{% block main %}
+
+<div class="main4">
+<p class="sign4" align="center">Event Details</p>
+<table class="tablecustom30">
+    <tr>
+        <td>
+            <div class="formheader2">
+                EVENT NAME:
+            </div>
+            <div class="formcontent2">
+                {{eventname}}
+            </div>
+            <div class="formheader2">
+                <span >
+                    START DATE:
+                </span>
+                <span style="padding-left: 8%">
+                    START TIME:
+                </span>
+                <span style="padding-left: 12%">
+                    END DATE:
+                </span>
+                <span style="padding-left: 10%">
+                    END TIME:
+                </span>
+            </div>
+            <div class="formcontent2">
+                <span>
+                    {{startdate.strftime('%d/%m/%Y')}}
+                </span>
+                <span style="padding-left: 4.5%">
+                    {{starttime.strftime('%H:%M')}}
+                </span>
+                <span style="padding-left: 20%">
+                    {{enddate.strftime('%d/%m/%Y')}}
+                </span>
+                <span style="padding-left: 4.5%">
+                    {{endtime.strftime('%H:%M')}}
+                </span>
+            </div>
+            <div class="formheader2">
+                DESCRIPTION:
+            </div>
+            <div class="formcontent2">
+                {% if desc != "" %}
+                    {{desc}}
+                {% else %}
+                    -
+                {% endif %}
+            </div>
+            <div class="formheader2">
+                REMARKS:
+            </div>
+            <div class="formcontent2">
+                {% if remarks != "" %}
+                    {{remarks}}
+                {% else %}
+                    -
+                {% endif %}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td height=25></td>
+    </tr>
+</table>
+</div>
+
+{% endblock %}

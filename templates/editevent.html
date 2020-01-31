@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit Event
+{% endblock %}
+
+{% block main %}
+
+<div class="main3">
+<p class="sign3" align="center">Event Details</p>
+<form class="form2" id = "editevent" action="/editevent?eventid={{eventid}}" method="post">
+    <div class="formheader">EVENT NAME: *</div>
+    <div>
+        <input id = "eventname" autocomplete="off" autofocus class="un1" name="eventname" value="{{eventname}}" placeholder="Event Name" type="text" required>
+    </div>
+    <div>
+        <div class="formheader">
+            <span>START: *</span>
+            <span class="formheader1">END: *</span>
+        </div>
+        <input class="un2" name="startdate" id = "startdate" type="text" value="{{startdate}}" placeholder="Start" required>
+        <input class="un2" name="enddate" id = "enddate" type="text" value="{{enddate}}" placeholder="End" required>
+    </div>
+    <div class="formheader">DESCRIPTION:</div>
+    <div>
+        <textarea style="resize: none" cols = "50" rows= "3" class = "un1" name = "desc" placeholder="Description (Optional)">{{desc}}</textarea>
+    </div>
+    <div class="formheader">REMARKS:</div>
+    <div style="padding-bottom: 10px">
+        <textarea style="resize: none" cols = "50" rows= "3" class = "un1" name = "remarks" placeholder="Remarks (Optional)">{{remarks}}</textarea>
+    </div>
+    <button class="submit ad1" type="submit">Save Changes</button>
+
+</form>
+</div>
+
+<script>
+    $("#startdate").flatpickr({
+        dateFormat: "d/m/Y H:i",
+        enableTime: true,
+        time_24hr: true,
+    });
+
+    $("#enddate").flatpickr({
+        dateFormat: "d/m/Y H:i",
+        enableTime: true,
+        time_24hr: true,
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+<script>
+    $('document').ready(function(){
+        $('form').on('submit', function(e){
+            e.preventDefault();
+            var username = $("#username").val();
+            var password = $("#password").val();
+            $.get('/checklogin?username=' + username +'&password=' + password, function(response) {
+                if (response == false) {
+                    alert('Invalid username or password! Inputs are case-sensitive!');
+                    $('#username').focus();
+                }
+                else
+                {
+                    (document).getElementById('login').submit();
+                }
+            });
+        });
+    });
+
+    function showhidefunction()
+    {
+        var password = document.getElementById("password");
+        if (password.type === "password") {
+            password.type = "text";
+        }else{
+            password.type = "password";
+        }
+    }
+</script>
+
+<div class="main">
+    <p class="sign" align="center">Log In</p>
+    <form class= "form1" action="/login" id ="login" method="post">
+        <input size=30 autocomplete="off" autofocus class="un" name="username" id="username" placeholder="Username" type="text" align="center" required>
+        <input size = 30 class="pass" name="password" id="password" placeholder="Password" type="password" align="center" required>
+        <div class="form-check">
+            <input id="showpw" class="form-check-input" type= "checkbox" onclick = "showhidefunction()">
+            <label for "showpw" style="font-size: 13px; letter-spacing: 1px" class="form-check-label">Show Password</label>
+        </div><br>
+        <button class="submit ad1" type="submit">Log In <img src = "/static/login.png" width="12" height="12" alt=""></button>
+    </form>
+</div>
+{% endblock %}
