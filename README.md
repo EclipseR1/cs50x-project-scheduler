@@ -1,5 +1,4 @@
-Project Title: Project Scheduler
-Made by: Yeap Jia Hao from Singapore
+# **Project Title: Project Scheduler**
 
 Project Scheduler is an event planner that will help its user organise and track all his/her events.
 
