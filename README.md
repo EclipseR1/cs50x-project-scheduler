@@ -5,8 +5,8 @@ Project Scheduler is an event planner that will help its user organise and track
 
 ### **Main Features:**
 
-* `Live clock` that syncs with the system clock, at the top of the page to help its user keep track of time to attend all those important events
-* `Countdown Timer` that counts down to (displaying in Days, Hours, Mins, and Secs), and displaying the event details of, the next upcoming event
+* `Live clock` that syncs with the system clock, to help its user keep track of time to attend all those important events
+* `Countdown Timer` that counts down to (displaying in Days, Hours, Mins, and Secs), and displays the event details of, the next upcoming event
 * `Event organiser` that:
     * Displays all of its user's events and free time by day (default will display the events of the current day, with the option to select past or future days)
     * Highlights all potential conflicting events
