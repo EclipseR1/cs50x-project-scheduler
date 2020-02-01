@@ -3,6 +3,8 @@
 
 Project Scheduler is an event planner that will help its user organise and track all his/her events.
 
+**[ [View Project Scheduler in action](https://youtu.be/a56itkgH8_Q) ]**
+
 ### **Main Features:**
 
 * `Live clock` that syncs with the system clock, to help its user keep track of time to attend all those important events
