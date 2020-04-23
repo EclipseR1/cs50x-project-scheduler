@@ -1,5 +1,5 @@
 # **CS50x Final Project: Project Scheduler**
-*`Web application made using Python, HTML, CSS, JavaScript, SQL and Flask.`*
+*`Web application made using Python, HTML, CSS, JavaScript, SQL and Flask for CS50x Final Project.`*
 
 Project Scheduler is an event planner that will help its user organise and track all his/her events.
 
